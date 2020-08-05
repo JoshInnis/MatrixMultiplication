@@ -1,1 +1,1 @@
-# StrassensMatrixMultiplication
+# Matrix Multiplication Utility
