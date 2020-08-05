@@ -22,12 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 # For more information, please refer to <https://unlicense.org>
-#
-# 'make depend' uses makedepend to automatically generate dependencies 
-#               (dependencies are added to end of Makefile)
-# 'make'        build executable file 'mycc'
-# 'make clean'  removes all .o and executable files
-#
+
 # define the C compiler to use
 CC = gcc
 
@@ -36,12 +31,12 @@ CFLAGS = -Wall -g
 
 # define any directories containing header files other than /usr/include
 #
-INCLUDES = -I./src/include
+INCLUDES = -Isrc/include
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = -L./src/lib
+LFLAGS = -Lsrc/lib
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname
