@@ -30,15 +30,19 @@
 
 #include <stdlib.h>
 
+#include "node.h"
+
 typedef struct Cell Cell;
 
 typedef struct List {
+    Tag tag;
     int length;
     Cell *head;
     Cell *tail;
 } List;
 
 struct Cell {
+    Tag tag;
     void *data;
     Cell *next;
 };
@@ -67,6 +71,7 @@ static List *new_list(void) {
     List *new_list;
 
     new_list = (List *) malloc(sizeof(*new_list));
+    new_list->tag = T_List;
     new_list->length = 0;
     new_list->head = NULL;
     new_list->tail = NULL;
@@ -81,6 +86,7 @@ static List *prepend(void *data, List *list) {
         list = new_list();
 
     head = (Cell *) malloc(sizeof(*head));
+    head->tag = T_Cell;
     head->next = list->head;
     head->data = data;
 
@@ -100,6 +106,7 @@ static List *append(List *list, void *data) {
         list = new_list();
 
     tail = (Cell *) malloc(sizeof(*tail));
+    tail->tag = T_Cell;
     tail->next = NULL;
     tail->data = data;
 

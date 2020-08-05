@@ -25,37 +25,25 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef NODE_H
+#define NODE_H
 
-#include "graph.h"
-#include "list.h"
 
-int main(int argc, char *argv[]) {
-    int c;
-    int optindex;
+typedef enum NodeTag {
+	T_Invalid = 0,
+	T_List,
+	T_Cell,
+	T_HashTable,
+	T_KeyValuePair,
+	T_Graph,
+	T_Vertex,
+	T_Edge
+} Tag;
 
-    if (argc <= 1) {
-        fprintf(stderr, "cannot run matrix multiplication without arguments\n");
-        exit(EXIT_FAILURE);
-    }
+typedef struct Node {
+	Tag tag;
+} Node;
 
-    static struct option long_options[] = {
-        {"file", required_argument, NULL, 'f'}
-    };
+//#define makeNode(_type_) ((_type_ *) newNode(sizeof(_type_),T_##_type_))
 
-    while ((c = getopt_long(argc, argv, "f:", long_options, &optindex)) != -1) {
-        switch (c) {
-            case 'f':
-                printf("file: %s\n", strdup(optarg));
-                break;
-            default:
-                fprintf(stderr, "unknown command line option given\n");
-                exit(EXIT_FAILURE);
-        }
-    }
-
-    return 0;
-}
+#endif

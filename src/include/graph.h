@@ -25,37 +25,57 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef GRAPH_H
+#define GRAPH_H
 
-#include "graph.h"
 #include "list.h"
 
-int main(int argc, char *argv[]) {
-    int c;
-    int optindex;
+typedef struct Edge Edge;
+typedef struct Vertex Vertex;
 
-    if (argc <= 1) {
-        fprintf(stderr, "cannot run matrix multiplication without arguments\n");
-        exit(EXIT_FAILURE);
-    }
+typedef struct Graph {
+	Tag tag;
+	List *vertices;
+} Graph;
 
-    static struct option long_options[] = {
-        {"file", required_argument, NULL, 'f'}
-    };
+typedef struct Vertex {
+	Tag tag;
+	List *edges;
+} Vertex;
 
-    while ((c = getopt_long(argc, argv, "f:", long_options, &optindex)) != -1) {
-        switch (c) {
-            case 'f':
-                printf("file: %s\n", strdup(optarg));
-                break;
-            default:
-                fprintf(stderr, "unknown command line option given\n");
-                exit(EXIT_FAILURE);
-        }
-    }
+typedef struct Edge {
+	Tag tag;
+	Vertex *vertex;
+} Edge;
 
-    return 0;
+static inline Graph *makeGraph(List *vertices) {
+	Graph *graph;
+
+	graph = (Graph *) malloc(sizeof(*graph));
+	graph->tag = T_Graph;
+	graph->vertices = vertices;
+
+	return graph;
 }
+
+static inline Vertex *makeVertex(List *edges) {
+	Vertex *vertex;
+
+	vertex = (Vertex *) malloc(sizeof(*vertex));
+	vertex->tag = T_Vertex;
+	vertex->edges = edges;
+
+	return vertex;
+}
+
+Edge *makeEdge(Vertex *vertex) {
+	Edge *edge;
+
+	edge = (Edge *) malloc(sizeof(*edge));
+	edge->tag = T_Edge;
+	edge->vertex = vertex;
+
+	return edge;
+}
+
+#endif

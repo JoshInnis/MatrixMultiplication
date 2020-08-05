@@ -25,37 +25,37 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#include <getopt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
 
-#include "graph.h"
-#include "list.h"
+#include "node.h"
 
-int main(int argc, char *argv[]) {
-    int c;
-    int optindex;
-
-    if (argc <= 1) {
-        fprintf(stderr, "cannot run matrix multiplication without arguments\n");
-        exit(EXIT_FAILURE);
-    }
-
-    static struct option long_options[] = {
-        {"file", required_argument, NULL, 'f'}
-    };
-
-    while ((c = getopt_long(argc, argv, "f:", long_options, &optindex)) != -1) {
-        switch (c) {
-            case 'f':
-                printf("file: %s\n", strdup(optarg));
-                break;
-            default:
-                fprintf(stderr, "unknown command line option given\n");
-                exit(EXIT_FAILURE);
-        }
-    }
-
-    return 0;
+struct HashTable {
+	Tag tag;
+	Array *pairs;
+	int size;	
 }
+
+sturct KeyValuePair {
+	Tag tag;
+	Node *key;
+	Node *value;
+}
+
+static inline HashTable *makeHashTable() {
+	HashTable tbl;
+
+	tbl = (HashTable *) malloc(sizeof(*tbl));
+
+	return tbl;
+}
+
+static inline KeyValuePair *makeKeyValuePair(Node *key, Node *value) {
+	KeyValuePair kvp;
+
+	kvp = (KeyValuePair *) malloc(sizeof(*kvp));
+
+	return kvp;
+}
+
+#endif
